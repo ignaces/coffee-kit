@@ -1,0 +1,23 @@
+<% provide :title, 'Regístrate' %>
+
+<div class="row">
+  <div class="col-md-12 text-center">
+    <div class="page-header">
+      <h2>¡Regístrate!</h2>
+    </div>
+  </div>
+</div>
+
+<div class="row text-center">
+  <div class="col-md-4 col-md-offset-4">
+    <%= bootstrap_form_for @user do |f| %>
+      <%= f.text_field :first_name, hide_label: true, placeholder: 'Nombre', class: 'input-lg', required: true %>
+      <%= f.email_field :email, hide_label: true, placeholder: 'Email', class: 'input-lg', required: true %>
+      <%= f.password_field :password, hide_label: true, placeholder: 'Contraseña', class: 'input-lg', required: true %>
+      <%= f.password_field :password_confirmation, hide_label: true, placeholder: 'Confirma tu contraseña', class: 'input-lg', required: true %>
+      <%= f.submit '¡Listo!', class: 'btn btn-primary btn-lg center-block col-md-12', data: { disable_with: 'Cargando...' } %>
+    <% end %>
+    <p>¿Ya estás registrado? <%= link_to 'Inicia sesión', signin_path %></p>
+  </div>
+</div>
+

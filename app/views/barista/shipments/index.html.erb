@@ -1,0 +1,67 @@
+<div class="page-header">
+  <h1>Despachos</h1>
+</div>
+
+<div class="row">
+  <div class="col-md-12">
+    <ul class="nav nav-tabs" role="tablist">
+      <li <%= "class=active" if params[:period].nil? %> ><%= link_to 'Todos', barista_shipments_path %></li>
+      <li <%= "class=active" if params[:period] == 'current_week' %>><%= link_to 'Esta semana', barista_shipments_path(period: 'current_week') %></li>
+      <li <%= "class=active" if params[:period] == 'next_week' %>><%= link_to 'Próxima semana', barista_shipments_path(period: 'next_week') %></li>
+    </ul>
+
+    <table class="table datatable">
+      <thead>
+        <tr>
+          <th>Fecha a entregar</th>  
+          <th>Código venta</th>       
+          <th>Cliente</th>
+          <th>Productos</th>
+          <th>Entrega</th>
+          <th>Comuna</th>
+          <th>Estado</th>
+          <th></th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @shipments.each do |shipment| %>
+          <tr>
+            <td><%= shipment.shipping_date.strftime("%d/%m/%Y") %></td>
+            <td><%= link_to(shipment.order.uuid, barista_order_path(shipment.order)) %></td>
+            <td><%= link_to shipment.order.user.first_name.titleize, barista_user_path(shipment.order.user) %></td>
+            <td>
+              <% if shipment.subscription_month %>
+                <% if shipment.subscription_month.coffee_bean_selections.any? %>
+                  <% shipment.subscription_month.coffee_bean_selections.each do |selection| %>
+                    <p>Suscripción: <%= "#{coffee_grams_for(selection.grams)} de #{selection.coffee_bean.name}" %></p>
+                  <% end %>
+                <% else %>
+                  <p>Suscripción: Elección de café pendiente </p>
+                <% end %>
+              <% end %>
+
+              <% shipment.order.items.each do |item| %>
+                <p><%= item.quantity %> x <%= item.product.name %></p>
+              <% end %>
+            </td>
+            <td>
+              <%= (shipment.order.shipments.order(:id).to_a.index(shipment) + 1) %>/<%= shipment.order.shipments.count %>
+            </td>
+            <td><%= shipment.shipping_town %></td>
+            <td><%= shipment_status_for shipment %></td>
+            <td>
+              <%= link_to 'Pendiente | ', update_status_barista_shipment_path(shipment.id, status: 'pending'), method: :patch unless shipment.status == 'pending' %>
+              <%= link_to 'En preparación | ', update_status_barista_shipment_path(shipment.id, status: 'preparing'), method: :patch unless shipment.status == 'preparing' %> 
+              <%= link_to 'En ruta | ', update_status_barista_shipment_path(shipment.id, status: 'route'), method: :patch unless shipment.status == 'route' %>
+              <%= link_to 'Entregado', update_status_barista_shipment_path(shipment.id, status: 'delivered'), method: :patch unless shipment.status == 'delivered' %>
+            </td>
+            <td><%= link_to raw("<span class='glyphicon glyphicon-eye-open'></span>"), barista_shipment_path(shipment) %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+    <%= paginate @shipments %>
+  </div>
+</div>
+

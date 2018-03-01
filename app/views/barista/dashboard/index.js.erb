@@ -1,0 +1,28 @@
+$('#dashboard-container').html("<%= j(render 'dashboard_container') %>");
+
+var options = {
+  title: {
+    text: 'Ingresos'
+  },
+  credits: {
+    enabled: false
+  },
+  tooltip: {
+    pointFormat: "${point.y} CLP"
+  }
+};
+
+$.getJSON('/api/orders/total_revenue', {
+  <%= raw "date_from: '#{params[:date_from]}'" if params[:date_from] %>  
+  <%= raw ", date_to: '#{params[:date_to]}'" if params[:date_from] %>  
+}, function(data){
+  options.xAxis = {
+    labels: { rotation: -45 },
+    categories: data.orders.map(function(item){ return(item.date) })
+  };
+
+  options.series = [ { name: 'Ventas', data: data.orders.map(function(item){ return(item.revenue) }) } ],
+
+
+  $('#chart-total-revenue').highcharts(options);
+});

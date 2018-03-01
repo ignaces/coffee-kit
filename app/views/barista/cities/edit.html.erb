@@ -1,0 +1,38 @@
+<div class="page-header">
+  <h2><span class="glyphicon glyphicon-plane"></span> <%= @city.name %></h2>
+</div>
+
+<div class="row">
+  <div class="col-md-4">
+    <%= bootstrap_form_for [:barista, @city] do |f| %>
+      <%= f.check_box :is_active, label: 'Disponible' %>
+      <%= f.submit 'Actualizar', class: 'btn btn-primary btn-sm' %>
+    <% end %>
+  </div>
+   <div class="col-md-8">
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Comuna</th>
+          <th>Costo de reparto</th>
+          <th></th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @city.communes.each do |commune| %>
+          <%= bootstrap_form_for commune, url: update_commune_barista_city_path, method: :put do |f| %>
+            <%= f.hidden_field :id %>
+            <tr>
+              <td><%= commune.name %></td>
+              <td><%= f.number_field :shipping_price, hide_label: true, class: 'input-sm', required: true %></td>
+              <td><%= f.check_box :is_active, label: 'Disponible' %></td>
+              <td><%= f.submit 'Actualizar', class: 'btn btn-primary btn-sm' %></td>
+            </tr>
+          <% end %>
+        <% end %>
+      </tbody>
+    </table>
+
+  </div>
+</div>

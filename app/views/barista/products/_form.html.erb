@@ -1,0 +1,12 @@
+<%= bootstrap_form_for [:barista, @product], layout: :horizontal do |f| %>
+  <%= f.text_field :sku, label: 'SKU' %>
+  <%= f.text_field :name, label: 'Nombre' %>
+  <%= f.text_area :description, label: 'Descripción' %>
+  <%= f.text_field :tag_list, label: 'Tags' %>
+  <%= f.number_field :buy_price, label: 'Precio compra' %>
+  <%= f.number_field :sell_price, label: 'Precio venta' %>
+  <%= f.file_field :photo_1, label: 'Foto' %>
+  <%= f.form_group do %>
+    <%= f.check_box :is_active, label: 'Disponible' %>
+  <% end %>   <%= f.submit 'Guardar', class: 'btn btn-primary', data: { disable_with: 'Guardando' } %>
+<% end %>

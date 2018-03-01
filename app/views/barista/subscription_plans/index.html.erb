@@ -1,0 +1,30 @@
+<div class="page-header">
+  <h1>Planes de subscripción</h1>
+</div>
+
+<div class="row">
+  <div class="col-md-12">
+      <%= link_to 'Crear nuevo plan', new_barista_subscription_plan_path, class: 'btn btn-default' %>
+
+    <table class="table datatable">
+      <thead>
+        <tr>
+          <th>SKU</th>
+          <th>Nombre</th>
+          <th>Gramos</th>
+          <th>Disponible</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @plans.each do |plan| %>
+          <tr>
+            <td><%= link_to plan.sku, edit_barista_subscription_plan_path(plan)%></td>
+            <td><%= plan.name %></td>
+            <td><%= plan.coffee_grams %></td>
+            <td><%= active_icon(plan.is_active) %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>

@@ -1,0 +1,36 @@
+<div class="page-header">
+  <h1>Despacho #<%= @shipment.id %></h1>
+</div>
+
+<div class="row">
+  <div class="col-md-12">
+    <h3>Despachar el <%= @shipment.shipping_date.strftime("%d-%m-%Y") %></h3>
+
+    <h4>Dirección de despacho</h4>
+
+    <%= @shipment.full_address %> <br>
+    Comentarios: <%= @order.shipping_address.comments %> <br>
+    
+    <h4>Usuario</h4>
+
+    Nombre: <%= @order.user.first_name %> <br>
+    Teléfono: <%= @order.shipping_address.contact_phone %> <br>
+    Email: <%= @order.user.email %>
+    <h4>Productos a despachar</h4>
+    <ul>
+      <% if @shipment.subscription_month %>
+        <% if @shipment.subscription_month.coffee_bean_selections.any? %>
+          <% @shipment.subscription_month.coffee_bean_selections.each do |selection| %>
+            <li><%= "#{coffee_grams_for(selection.grams)} de #{selection.coffee_bean.name}" %></li>
+          <% end %>
+        <% else %>
+          <li>Suscripción: Elección de café pendiente </li>
+        <% end %>
+      <% end %>
+
+      <% @shipment.order.items.each do |item| %>
+        <li><%= item.quantity %> x <%= item.product.name %></li>
+      <% end %>
+    </ul>
+  </div>
+</div>

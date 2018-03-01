@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Barista | The Coffee Kit</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="utf-8">
+  <%= stylesheet_link_tag    'barista', media: 'all' %>
+  <%= javascript_include_tag 'barista' %>
+  <link rel="shortcut icon" href="<%= asset_path 'favicon.ico' %>">
+  <%= csrf_meta_tags %>
+
+</head>
+<body>
+  <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <%= link_to 'The Coffee Kit', barista_root_path, class: 'navbar-brand' %>
+      </div>
+      <div class="navbar-collapse collapse">
+        <ul class="nav navbar-nav">
+          <li><%= link_to 'Usuarios', barista_users_path %></li>
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Catálogo<b class="caret"></b></a>
+            <ul class="dropdown-menu">
+              <li class="dropdown-header">Suscripción</li>
+              <li><%= link_to 'Planes', barista_subscription_plans_path %></li> 
+              <li><%= link_to 'Variedades de Café', barista_coffee_beans_path %></li>
+              <li class="divider"></li>
+              <li class="dropdown-header">Tienda</li>
+              <li><%= link_to 'Productos', barista_products_path %></li> 
+            </ul>
+          </li>
+          <li><%= link_to 'Ventas', barista_orders_path %></li>
+          <li><%= link_to 'Despachos', barista_shipments_path %></li>
+          <li><%= link_to 'Zonas de entrega', barista_cities_path %></li>
+        </ul>
+        
+        <ul class="nav navbar-nav navbar-right">
+
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><%= current_user.email %> <b class="caret"></b></a>
+            <ul class="dropdown-menu">
+              <li><%= link_to 'Cerrar sesión', signout_path, method: :delete %></li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="container-fluid">
+    <%= render 'shared/flash_messages' %>
+    <%= yield %>
+  </div>
+
+</body>
+
+</html>

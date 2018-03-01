@@ -1,0 +1,52 @@
+<div class="row">
+  <div class="col-lg-12">
+    <h4 class="text-center brown"><strong>The Coffee Kit</strong> es un servicio de suscripción de café de especialidad en grano recién tostado.</h4>
+  </div>
+</div>
+
+<div class="row text-center">
+
+  <div class="col-lg-12">
+    <h2 class="text-center">Suscríbete en tres simples pasos</h2>
+    <hr>
+  </div>
+
+  <div class="col-lg-4">
+    <div class="col-lg-5">
+      <img src="<%= asset_path 'img-step-1.jpg' %>" class="img-circle">
+    </div>
+    <div class="col-lg-7">
+      <h4 class="brown">UNO</h4>
+      <p class="">Elige tu suscripción <strong class="brown">desde 1 a 12 meses</strong> de 250g, 500g o 1kg de café en grano.</p>
+    </div>
+  </div>
+
+  <div class="col-lg-4">
+    <div class="col-lg-5">
+      <img src="<%= asset_path 'img-step-2.jpg' %>" class="img-circle">
+    </div>
+    <div class="col-lg-7">
+      <h4 class="brown">DOS</h4>
+
+      <p>Selecciona entre las variedades de <strong class="brown">café de especialidad</strong> disponibles en el mes.</p>
+    </div>
+  </div>
+
+  <div class="col-lg-4">
+    <div class="col-lg-5">
+      <img src="<%= asset_path 'img-step-3.jpg' %>" class="img-circle" alt="paso 2">
+    </div>
+    <div class="col-lg-7">
+      <h4 class="brown">TRES</h4>
+      <p>Recibe mes a mes tu <strong class="brown">café recién tostado</strong> en la comodidad de tu casa u oficina.</p>
+    </div>
+  </div>
+
+</div>
+
+<div class="row text-center" style="margin-top: 50px;">
+  <%= form_tag add_subscription_orders_path do %>
+    <%= submit_tag 'Suscríbete', class: 'btn btn-primary btn-lg' %>
+    <%= link_to 'Compra tu Testing Bag', '/products/testing-bag', class: 'btn btn-default btn-lg' %>
+  <% end %>
+</div>

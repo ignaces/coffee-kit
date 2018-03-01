@@ -1,0 +1,92 @@
+<div class="row">
+  <div class="col-md-12">
+    <div class="page-header">
+      <h2>Mi suscripción de <%= coffee_grams_for(@plan.coffee_grams) %> por <%= @subscription.months %> meses.</h2>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-2">
+    <ul class="nav nav-pills nav-stacked">
+      <% @months.each_with_index do |month, index| %>
+        <li <%= "class=active" if month == @current_month || index == 0 %>>
+          <a href="#"> <%= l(month.month, format: '%B de %Y').capitalize %></a> 
+        </li>
+      <% end %>
+    </ul>
+  </div>
+  <div class="col-md-10">
+    <%= render 'shared/flash_messages' %>
+    <% if @current_month.coffee_bean_selections.any? %>
+      <h4>Tu selección para el mes de <%= l(@current_month.month, format: '%B de %Y').capitalize %> fue:</h4>
+      <ul>
+        <% @current_month.coffee_bean_selections.each do |selection| %>
+          <li><%= "#{coffee_grams_for(selection.grams)} de #{selection.coffee_bean.name}" %></li>
+        <% end %>
+      </ul>
+    <% else %>
+      <h4>Elige tus <%= coffee_grams_for(@plan.coffee_grams) %> café para el mes de <%= l(@current_month.month, format: '%B de %Y').capitalize %></h4>
+      <%= form_tag update_coffee_beans_subscriptions_path do %>
+        <%= hidden_field_tag :month_id, @current_month.id %>
+
+        <select data-max-gr="<%= @subscription.subscription_plan.coffee_grams %>" style="width: 100%; margin-bottom: 20px;" id="select-coffee" multiple="multiple" name="coffee_beans[]">
+          <% CoffeeBean.where(is_active: true).where('grams_package <= ?', @subscription.subscription_plan.coffee_grams).order(:grams_package).group_by(&:grams_package).each do |key, value| %>
+            <optgroup label="En bolsa de <%= key %> G">
+              <% value.each do |bean| %>
+                <option data-gr="<%= bean.grams_package %>" value="<%= bean.sku %>"><%= "#{bean.grams_package} G de #{bean.name}" %></option>
+              <% end %>
+            </optgroup>
+          <% end %>
+        </select>
+
+        <p id="selected-coffee-grams"></p>
+
+        <%= submit_tag 'Elegir café', class: 'btn btn-primary', data: { confirm: '¿Estás seguro?', disable_with: 'Cargando' } %>
+
+      <% end %>
+    <% end %>
+
+
+  </div>
+</div>
+
+ <script>
+    var selectCoffee = $('#select-coffee');
+  
+        $(document).ready(function() { 
+          var selectCoffee = $('#select-coffee');
+          var maxGr = selectCoffee.data('max-gr');
+          var totalGr = 0;
+          var selectedCoffeeGrams = $('#selected-coffee-grams')
+          
+          function countGr(){
+            totalGr = 0;
+            _.each(selectCoffee.select2('data'), function(option){
+              totalGr += $(option.element[0]).data('gr');
+            });
+            return(totalGr);
+          }
+
+          function canAddCoffee(gr){
+            if(maxGr >= (countGr() + gr)){
+              return(true);
+            } else {
+              return(false);
+            }
+          }
+          
+          selectCoffee.select2();
+
+          selectCoffee.on("select2-selecting", function(e){
+            gr = $(e.choice.element[0]).data('gr');
+            if(!canAddCoffee(gr)){
+              e.preventDefault();
+            }
+          });
+
+        });
+    </script>
+
+ 
+ 

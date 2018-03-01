@@ -1,0 +1,16 @@
+<div class="page-header">
+  <h1>Nueva dirección de despacho</h1>
+</div>
+
+<div class="row">
+  <div class="col-md-4">
+    <%= bootstrap_form_for @address do |f| %>
+      <%= f.select :town, options_for_select(ShippingAddress::TOWNS), label: 'Comuna' %>
+      <%= f.text_field :address, label: 'Calle' %>  
+      <%= f.text_field :address_number, label: 'Número calle' %>
+      <%= f.text_field :address_number_2, label: 'Número Depto/Oficina/Casa' %>
+      <%= f.text_area :comments, label: 'Indicaciones', placeholder: 'Calle de referencia, timbre malo, cuidado con el perro, etc...' %>
+      <%= f.submit 'Guardar dirección', class: 'btn btn-primary', data: { disable_with: 'Guardando' } %>
+    <% end %>
+  </div>
+</div>

@@ -1,0 +1,33 @@
+<div class="page-header">
+  <h1>Productos</h1>
+</div>
+
+<div class="row">
+  <div class="col-md-12">
+      <%= link_to 'Nuevo producto', new_barista_product_path, class: 'btn btn-default' %>
+
+    <table class="table datatable">
+      <thead>
+        <tr>
+          <th>SKU</th>
+          <th>Nombre</th>
+          <th>Precio Compra</th>
+          <th>Precio Venta</th>
+          <th>Activo</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @products.each do |product| %>
+          <tr>
+            <td><%= link_to product.sku, edit_barista_product_path(product) %></td>
+            <td><%= product.name.titleize %></td>
+            <td><%= number_to_currency product.buy_price, precision: 0, delimiter: '.' %></td>
+            <td><%= number_to_currency product.sell_price, precision: 0, delimiter: '.' %></td>
+            <td><%= active_icon(product.is_active) %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+    <%= paginate @products %>
+  </div>
+</div>

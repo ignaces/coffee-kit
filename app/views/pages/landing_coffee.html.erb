@@ -1,0 +1,104 @@
+
+    <div class="row text-center" style="margin-bottom: 50px;">
+
+      <div class="col-md-12">
+        <h2 >Suscripciones/café</h2>
+        <hr>
+        <p class="description">The Coffee Kit es un servicio de suscripción de café en grano recién tostado. Una vez al mes, despachamos café a tu casa u oficina. Solo debes suscribirte y elegir la variedad que prefieras de nuestro catálogo mensual. El café va en granos, por lo que debes molerlo para disfrutar al máximo de la frescura del café de especialidad recién tostado. Para prepararlo, también ofrecemos <%= link_to 'kits con molinillos', '/products/starter-kit-basic' %> y <%= link_to 'cafeteras', '/products/traveler-kit' %>.</p> 
+        <hr>
+
+      </div>
+      <div class="col-md-4 variedad">
+        <img src="<%= asset_path('img-bruzzi.jpg') %>" class="img-rounded" alt="Variedad">
+        <h4>BRASIL BRUZZI</h4>
+        <ul style="list-style-type: none;">
+          <li><strong>Origen:</strong> Minas Gerais, Brasil </li>
+          <li><strong>Productor:</strong> Daterra</li>
+          <li><strong>Métodos de preparación:</strong> Todo tipo de preparación, en especial espressos y cafés con leche texturizada como capuccinos o lattes.</li>
+          <li>Tostado a nivel intenso.</li>
+        </ul>
+
+        <form id="new-subscription" accept-charset="UTF-8" action="/orders/add_subscription" method="post"><div style="display:none"><input name="utf8" type="hidden" value="✓"><input name="authenticity_token" type="hidden" value="/uHlyuPsyyT6K9vnbj0cc883YxESxYYBvJjnwvGbo84="></div>
+          <input name="commit" type="submit" value="Suscríbete" class="btn btn-primary">
+        </form>
+       
+      </div>
+
+      <div class="col-md-4  variedad">
+        <img src="<%= asset_path('img-gavilan.jpg') %>" class="img-rounded" alt="Variedad">
+        <h4>NICARAGUA GAVILÁN</h4>
+        <ul style="list-style-type: none;">
+         <li><strong>Origen:</strong> Matagalpa, Nicaragua.</li>
+         <li><strong>Productor:</strong> Fincas locales</li>
+         <li><strong>Métodos de preparación:</strong> Todo tipo de preparación, en especial espressos y cafés con leche texturizada como capuccinos o lattes.
+           <li>Tostado a nivel intenso.</li>
+         </ul>
+
+         <form id="new-subscription" accept-charset="UTF-8" action="/orders/add_subscription" method="post"><div style="display:none"><input name="utf8" type="hidden" value="✓"><input name="authenticity_token" type="hidden" value="/uHlyuPsyyT6K9vnbj0cc883YxESxYYBvJjnwvGbo84="></div>
+          <input name="commit" type="submit" value="Suscríbete" class="btn btn-primary">
+        </form>
+        
+      </div>
+      <div class="col-md-4 variedad">
+        <img src="<%= asset_path('img-antigua.jpg') %>" class="img-rounded" alt="Variedad">
+        <h4>GUATEMALA ANTIGUA</h4>
+        <ul style="list-style-type: none;">
+          <li><strong>Origen:</strong> Antigua, Guatemala.</li>
+          <li><strong>Productor:</strong> Fedecocagua.</li>
+          <li><strong>Métodos de preparación:</strong> Todo tipo de preparación, en especial espressos y cafés con leche texturizada como capuccinos o lattes.</li>
+          <li>Tostado a nivel medio a intenso. </li>
+        </ul>
+
+        <form id="new-subscription" accept-charset="UTF-8" action="/orders/add_subscription" method="post"><div style="display:none"><input name="utf8" type="hidden" value="✓"><input name="authenticity_token" type="hidden" value="/uHlyuPsyyT6K9vnbj0cc883YxESxYYBvJjnwvGbo84="></div>
+          <input name="commit" type="submit" value="Suscríbete" class="btn btn-primary">
+        </form>
+        
+      </div>
+
+      
+     
+     
+    </div>
+
+    <div class="row text-center">
+      <div class="col-md-12">
+       <div class="col-md-4 col-md-offset-2  variedad">
+        <img src="<%= asset_path('img-huehue.jpg') %>" class="img-rounded" alt="Variedad">
+        <h4>GUATEMALA HUEHUE</h4>
+        <ul style="list-style-type: none;">
+          <li><strong>Origen:</strong> Huehuetenango, Guatemala.</li>
+          <li><strong>Productor:</strong> Fedecocagua.</li>
+          <li><strong>Métodos de preparación:</strong> Todo tipo de preparación, en especial dripper y AeroPress.</li>
+          <li>Tostado a nivel medio. <br></li>
+        </ul>
+
+        <form id="new-subscription" accept-charset="UTF-8" action="/orders/add_subscription" method="post"><div style="display:none"><input name="utf8" type="hidden" value="✓"><input name="authenticity_token" type="hidden" value="/uHlyuPsyyT6K9vnbj0cc883YxESxYYBvJjnwvGbo84="></div>
+          <input name="commit" type="submit" value="Suscríbete" class="btn btn-primary">
+        </form>
+        
+      </div>
+
+      <div class="col-md-4  variedad">
+        <img src="<%= asset_path('img-san-gerardo.jpg') %>" class="img-rounded" alt="Variedad">
+        <h4>GUATEMALA SAN GERARDO</h4>
+        <ul style="list-style-type: none;">
+         <li><strong>Origen:</strong> Amatitlán, Guatemala.</li>
+         <li><strong>Productor:</strong> Finca San Gerardo, procesado mediante lavado. </li>
+         <li><strong>Métodos de preparación:</strong> Todo tipo de preparación, en especial espressos y cafés con leche texturizada como capuccinos o lattes. </li>   
+         <li>Tostado a nivel medio a intenso.</li>
+         </ul>
+
+         <form id="new-subscription" accept-charset="UTF-8" action="/orders/add_subscription" method="post"><div style="display:none"><input name="utf8" type="hidden" value="✓"><input name="authenticity_token" type="hidden" value="/uHlyuPsyyT6K9vnbj0cc883YxESxYYBvJjnwvGbo84="></div>
+          <input name="commit" type="submit" value="Suscríbete" class="btn btn-primary">
+        </form>
+         
+      </div>
+
+      
+   
+      </div>
+    </div>
+
+
+
+

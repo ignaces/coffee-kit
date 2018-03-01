@@ -1,0 +1,75 @@
+<div class="row">
+  <div class="col-md-12">
+    <div class="page-header">
+      <h2>Dashboard</h2>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-12">
+    <div id="dashboard-range" class="pull-right btn btn-default btn-lg">
+      <span><%= l(@date_from) %> - <%= l(@date_to) %></span> <b class="caret"></b>
+    </div>
+  </div>
+</div>
+
+<div id="dashboard-container">
+  <%= render 'dashboard_container' %>
+</div>
+
+<script>
+  $(function(){
+
+    $('#dashboard-range').daterangepicker({
+      format: 'DD-MM-YYYY',
+      startDate: moment().startOf('month'),
+      endDate: moment(),
+      ranges: {
+          'Este mes': [moment().startOf('month'), moment().endOf('month')],
+          'Mes pasado': [moment().subtract('month', 1).startOf('month'), moment().subtract('month', 1).endOf('month')],
+          'Este año': [moment().startOf('year'), moment().endOf('year')],
+          'Últimos 7 días': [moment().subtract('days', 6), moment()],
+          'Últimos 30 días': [moment().subtract('days', 29), moment()],
+          'Hoy': [moment(), moment()],
+          'Ayer': [moment().subtract('days', 1), moment().subtract('days', 1)],
+        },
+      },
+      function(start, end){
+        $('#dashboard-range span').html(start.format('DD-MM-YYYY') + ' - ' + end.format('DD-MM-YYYY'));
+        $.get('/barista.js', { date_from: start.format('YYYY-MM-DD'), date_to: end.format('YYYY-MM-DD') });
+      }   
+    );
+
+    var options = {
+      title: {
+        text: 'Ingresos'
+      },
+      credits: {
+        enabled: false
+      },
+      tooltip: {
+        pointFormat: "${point.y} CLP"
+      }
+    };
+
+
+
+    $.getJSON('/api/orders/total_revenue', {
+      <%= raw "date_from: '#{params[:date_from]}'" if params[:date_from] %>  
+      <%= raw ", date_to: '#{params[:date_to]}'" if params[:date_from] %>  
+    }, function(data){
+      options.xAxis = {
+        labels: { rotation: -45 },
+        categories: data.orders.map(function(item){ return(item.date) })
+      };
+
+      options.series = [ { name: 'Ventas', data: data.orders.map(function(item){ return(item.revenue) }) } ],
+
+
+      $('#chart-total-revenue').highcharts(options);
+    });
+
+  });
+</script>
+

@@ -1,0 +1,26 @@
+<div class="page-header">
+  <h2><span class="glyphicon glyphicon-plane"></span> Zonas de entrega</h2>
+</div>
+
+<div class="row">
+  <div class="col-md-12">
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Provincia</th>
+          <th>Costo de entrega</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @cities.each do |city| %>
+          <tr>
+            <td><%= city.name %></td>
+            <td><%= active_icon(city.is_active) %></td>
+            <td><%= link_to raw("<span class='glyphicon glyphicon-pencil'></span>"), edit_barista_city_path(city) %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>

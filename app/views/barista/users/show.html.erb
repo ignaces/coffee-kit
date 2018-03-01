@@ -1,0 +1,12 @@
+<div class="page-header">
+  <h2><span class="glyphicon glyphicon-user"></span> <%= @user.first_name.titleize %></h2>
+</div>
+
+<div class="row">
+  <div class="col-md-12">
+    <dl>
+      <dt>Email</dt>
+      <dd><%= link_to @user.email, "mailto:#{@user.email}" %></dd>
+    </dl>
+  </div>
+</div>

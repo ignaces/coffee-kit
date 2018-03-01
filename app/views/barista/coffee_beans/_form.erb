@@ -1,0 +1,10 @@
+<%= bootstrap_form_for [:barista, @bean] do |f| %>
+  <%= f.text_field :sku, label: 'SKU' %>
+  <%= f.text_field :name, label: 'Nombre' %>
+  <%= f.text_field :origin_country, label: 'País de origen' %>
+  <%= f.text_field :toaster, label: 'Tostador' %>
+  <%= f.text_field :available_packages, label: 'Gramos por bolsa disponibles' %>
+  <%= f.form_group do %>
+    <%= f.check_box :is_active, label: 'Disponible' %>
+  <% end %>  <%= f.submit 'Guardar', class: 'btn btn-primary', data: { disable_with: 'Guardando' } %>
+<% end %>

@@ -1,0 +1,71 @@
+<div class="row">
+  <div class="col-md-6 col-md-offset-3 text-center">
+
+    <div class="page-header">
+      <h2>¿Cuánto café quieres por mes?</h2>
+    </div>
+
+    <div class="btn-group">
+      <% SubscriptionPlan.where(is_active: true).order(:coffee_grams).each do |plan| %>
+        <a href="<%= pricing_order_path(current_order, plan: plan.sku) %>" class="btn btn-lg btn-default <%= 'selected-plan' if @subscription.subscription_plan_id == plan.id %>"><%= coffee_grams_for(plan.coffee_grams) %> </a>
+      <% end %>
+    </div>
+
+    <%= form_tag update_pricing_orders_path, class: 'form-pricing' do %>
+      <%= hidden_field_tag :subscription_id, @subscription.id %>   
+      <%= hidden_field_tag :plan, @plan.sku %>
+
+      
+      <hr>
+      <input id="months-slider" type="range" min="<%= @entries.first.period_quantity %>" max="<%= @entries.last.period_quantity %>" step="1" value="<%= @subscription.months %>" name="months">
+      <h4 id="months"></h4>
+      <hr>
+      <h1 class="brown" id="total-price"></h1>
+      <p>valor incluye despacho</p>
+      <hr>
+      <%= submit_tag 'Continuar', class: 'btn btn-primary', data: { disable_with: 'Cargando' } %>
+    <% end %>
+  </div>
+</div>
+
+
+</div>
+
+<script>
+  $(document).ready(function(){
+
+    function updateSlider(){
+      var months = $('#months-slider').val();
+      var pricing = <%= @entries.each.map{ |entry| [entry.period_quantity, entry.price.to_i] } %>;
+      var totalPrice = _.find(pricing, function(price){ return price[0] == months })[1];
+      var gramsDivider = <%= (@subscription.subscription_plan.coffee_grams * 0.06).to_i %>;
+
+      var cupPrice = totalPrice / months / gramsDivider;
+
+      $('#months').text(months + ' meses a ' + '$' + Math.round(cupPrice) + ' por taza');
+      $('#total-price').text(numeral(totalPrice).format('$0,0') )
+    }
+
+    $('#months-slider').rangeslider({
+
+      polyfill: false,
+
+      rangeClass: 'rangeslider',
+      fillClass: 'rangeslider__fill',
+      handleClass: 'rangeslider__handle',
+
+      onInit: function() {
+        updateSlider()
+      },
+
+      onSlide: function(position, value) {
+        updateSlider();
+      },
+
+      // Callback function
+      onSlideEnd: function(position, value) {
+        mixpanel.track('Barra');
+      }
+    });
+  });
+</script>

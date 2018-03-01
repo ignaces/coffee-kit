@@ -1,0 +1,31 @@
+<div class="page-header">
+  <h2>¿Dónde quieres recibir tu pedido?</h2>
+</div>
+
+<div class="row">
+  <div class="col-md-9 ">
+    <%= bootstrap_form_for @shipping, layout: :horizontal, label_col: 'col-sm-3', control_col: 'col-sm-9',  url: update_shipping_orders_path, method: 'post', html: {id: 'msform', class: 'shipping'} do |f| %>
+      <%= hidden_field_tag :shipping_id, @shipping.id %>
+      <div class="form-group">
+        <label class="control-label col-sm-3" for="shipping_address_city">Provincia</label>
+        <div class="col-sm-9">
+          <%= select_tag :city_id, options_from_collection_for_select(City.where(is_active: true).order(:slug), :id, :name, @shipping.commune_id ? @shipping.commune.city.id : nil) , label: 'Provincia', class: 'form-control' %>
+        </div>
+      </div>
+      
+      <%= f.select :commune_id, @shipping.commune_id ? options_from_collection_for_select(@shipping.commune.city.communes.where(is_active: true).order(:slug), :id, :name, @shipping.commune_id) : [], label: 'Comuna' %>
+      <%= f.text_field :address, label: 'Dirección', placeholder: 'Ej: Manquehue 2771', required: true %>  
+      <%= f.text_field :address_number_2, label: 'Depto u oficina (opcional)' %>
+      <%= f.text_field :contact_phone, label: 'Teléfono de contacto', required: true %>
+      <%= f.text_area :comments, label: 'Indicaciones adicionales (opcional)', rows: 4 %>
+      <%= f.submit 'Confirma tu pedido', class: 'btn btn-primary', data: { disable_with: 'Cargando' } %>
+  
+    <% end %>
+  </div> 
+</div>
+
+
+
+
+
+

@@ -1,0 +1,44 @@
+<div class="page-header">
+  <h2>Confirma tu pedido</h2>
+</div>
+
+<div class="row">
+  <div class="col-md-6">
+    <%= render 'shared/order_items', order: current_order %>
+    <small>* El gasto de envío incluye todos los meses de tu suscripción.</small>
+
+  </div>
+  <div class="col-md-6 text-center">
+
+    <h1 class="brown">
+      <strong><%= number_to_currency(current_order.total_price, precision: 0, delimiter: '.') %></strong>
+      <small/><%= " (#{current_order.coupon.discount}% de descuento)" if current_order.coupon %></small>
+    </h1>
+
+    <% unless current_order.coupon %>
+      <p>¿Tienes un código de descuento?</p>
+      <div class="code-form" style="margin-top: 10px;">
+        <%= form_tag redeem_code_orders_path, class: 'form-inline', role: 'form' do %>
+          <%= text_field_tag :code, nil, class: 'form-control input-sm' %>
+          <%= submit_tag 'Aplicar descuento', class: 'btn btn-sm btn-primary', data: { disable_with: 'Cargando' } %>
+        <% end %>
+      </div>
+    <% end %>
+
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-12">
+
+
+    <%= form_tag pay_with_khipu_orders_path, id: 'khipu' do %>
+      <%= submit_tag '', class: 'btn-khipu center-block', data: { disable_with: '' } %>
+    <% end %>
+    <br>
+
+    <%= form_tag pay_with_paypal_orders_path, id: 'paypal' do %>
+      <%= submit_tag '', class: 'btn-paypal center-block', data: { disable_with: '' } %>
+    <% end %>
+  </div>
+</div>
+

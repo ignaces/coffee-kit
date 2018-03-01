@@ -1,0 +1,89 @@
+
+     <div class="row">
+      <div class="col-md-6 col-md-offset-3">
+    
+            <div class="page-header">
+              <h2>Tu pedido</h2>
+            </div>
+        
+            
+
+            <table class="table text-left">
+              <thead>
+                <tr>
+                  <th></th>
+                  <th>Cantidad</th>
+                  <th>Precio</th>
+                  <th>Total</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+                <% if current_order.subscription %>
+                  <tr>
+                    <td>
+                      Suscripción por <%= pluralize current_order.subscription.months, 'mes', 'meses' %>
+                    </td>
+                    <td>
+                      1
+                    </td>
+                    <td>
+                      <%= number_to_currency(current_order.subscription.subscription_plan_price, precision: 0, delimiter: '.') %>
+                    </td>
+                    <td>
+                      <%= number_to_currency(current_order.subscription.subscription_plan_price, precision: 0, delimiter: '.') %>
+                    </td>
+                  <td><%= link_to(raw("<span class='glyphicon glyphicon-remove-circle'></span>"), remove_subscription_from_cart_orders_path, method: :delete) %></td>
+                  </tr>
+                <% end %>
+                <% current_order.items.each do |item| %>
+                <tr>
+                  <td><%= item.product.name %></td>
+                  <td>  
+
+                    <%= form_tag update_product_quantity_orders_path do %>
+                    <%= hidden_field_tag :product_id, item.product.id %>
+                    <%= select_tag :quantity, options_for_select((1..10).to_a.map, item.quantity), class: 'select-product-quantity form-control' %>
+                    <% end %>
+
+                  </td>
+                  <td><%= number_to_currency(item.product_price, precision: 0, delimiter: '.')  %></td>
+                  <td><%= number_to_currency(item.quantity * item.product_price, precision: 0, delimiter: '.') %></td>
+                  <td><%= link_to(raw("<span class='glyphicon glyphicon-remove-circle'></span>"), remove_from_cart_orders_path(product_id: item.product.id), method: :delete) %></td>
+                  <% end %> 
+                  <tr>
+                    <td></td>
+                    <td></td>
+                    <td class="text-right"><strong>Total:</strong></td>
+                    <td><strong><%= number_to_currency(current_order.total_price, precision: 0, delimiter: '.') %></strong></td>
+                    <td></td>
+                  </tr>
+                </tbody>
+              </table>
+              
+              <%= link_to 'Continuar', shipping_order_path(current_order), class: 'btn btn-primary', data: { disable_with: 'Cargando' } if current_order.items.any? || current_order.subscription %>  <%= link_to 'Volver a la tienda', "#{root_url}#store" %>
+
+
+            </fieldset>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+
+
+
+
+
+
+<script>
+  $('.select-product-quantity').on('change', function(){
+    $(this).parents('form').submit();
+  });
+</script>
+

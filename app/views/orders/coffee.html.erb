@@ -1,0 +1,51 @@
+<div class="page-header">
+  <h2>Elige el café para el primer mes de tu suscripción <small class="brown"> <%= coffee_grams_for(@subscription.subscription_plan.coffee_grams) %>  por <%= pluralize(@subscription.months, 'mes', 'meses') %> </small></h2>
+</div>
+
+<%= form_tag update_coffee_orders_path do %>
+  <div class="row">
+    <div class="col-md-5">
+      <p>Haz click en los botones de abajo para agregar café a tu primer mes de suscripción. </p>
+      <table data-max-grams="<%= @subscription.subscription_plan.coffee_grams %>" id="coffee-beans" class="table">
+        <tbody>
+          <% CoffeeBean.where(is_active: true).order(:origin_country).each do |bean| %>
+            <tr>
+              <td><p><%= image_tag(asset_path("flag_#{bean.origin_country}.png")) %> <%= bean.name %> </p></td>
+              <td>
+                <% bean.available_packages.each do |package| %>
+                  <% if package.to_i <= @subscription.subscription_plan.coffee_grams %>  
+                    <button class="btn btn-default btn-sm add-bean" data-name="<%= bean.name %>" data-sku="<%= bean.sku %>" data-grams="<%= package %>"><span class="glyphicon glyphicon-plus" ></span> <%= coffee_grams_for(package.to_i) %></button>
+                  <% end %>
+                <% end %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="col-md-6">
+      <h3 class="selected-beans ">Tu selección <small class="brown"></small></h3>
+      <div class="row">
+        <div class="col-md-8">
+          <table id="selected-beans" class="table">
+            <tbody>
+              
+            </tbody>
+          </table>
+         </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="row">
+    <div class="col-md-12">
+    <hr>
+      <%= submit_tag 'Continuar', class: 'btn btn-primary', data: { disable_with: 'Continuar' } %>
+    </div>
+  </div>
+<% end %>
+  
+
+

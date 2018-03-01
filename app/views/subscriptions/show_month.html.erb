@@ -1,0 +1,88 @@
+<div class="row">
+  <div class="col-md-12">
+    <div class="page-header">
+      <h2>Mi suscripción de <%= coffee_grams_for(@plan.coffee_grams) %> por <%= pluralize(@subscription.months, 'mes', 'meses') %></h2>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-2">
+    <ul class="nav nav-pills nav-stacked">
+      <% @subscription.subscription_months.each do |month| %>
+        <li <%= "class=active" if month == @month %>>
+          <%= link_to l(month.month, format: '%B de %Y').capitalize, month_subscription_path(month.month.strftime("%m-%Y")) %>
+        </li>
+      <% end %>
+    </ul>
+  </div>
+  <div class="col-md-10">
+    <%= render 'shared/flash_messages' %>
+    <% if @month.coffee_bean_selections.any? %>
+      <h4>Tu selección para el mes de <%= l(@month.month, format: '%B de %Y').capitalize %> fue:</h4>
+      <ul>
+        <% @month.coffee_bean_selections.each do |selection| %>
+          <li><%= image_tag "flag_#{selection.coffee_bean.origin_country}.png" %> <%= "#{coffee_grams_for(selection.grams)} de #{selection.coffee_bean.name}" %></li>
+        <% end %>
+      </ul>
+    <% elsif @month.coffee_bean_selections.empty? && @month.shipment.shipping_date > 1.month.from_now.to_date %>
+      <div class="alert alert-info">
+        Todavía no puedes elegir el café de <%= l(@month.month, format: '%B de %Y').capitalize %>. Podrás elegirlo a partir del día <%= l(@month.shipment.shipping_date - 7.days) %>
+      </div>
+    <% else %>
+      <div class="page-header">
+        <h4>Elige el café para <%= l(@month.month, format: '%B de %Y').capitalize %> </h4>
+      </div>
+
+      <%= form_tag select_month_beans_subscription_path(date: params[:date]), method: :put do %>
+        <div class="row">
+          <div class="col-md-5">
+            Haz click en los botones de abajo para seleccionar café. </p>
+            <table data-max-grams="<%= @subscription.subscription_plan.coffee_grams %>" id="coffee-beans" class="table">
+              <tbody>
+                <% CoffeeBean.where(is_active: true).order(:origin_country).each do |bean| %>
+                  <tr>
+                    <td><p><%= image_tag(asset_path("flag_#{bean.origin_country}.png")) %> <%= bean.name %> </p></td>
+                    <td>
+                      <% bean.available_packages.each do |package| %>
+                        <% if package.to_i <= @subscription.subscription_plan.coffee_grams %>  
+                          <button class="btn btn-default btn-sm add-bean" data-name="<%= bean.name %>" data-sku="<%= bean.sku %>" data-grams="<%= package %>"><span class="glyphicon glyphicon-plus" ></span> <%= coffee_grams_for(package.to_i) %></button>
+                        <% end %>
+                      <% end %>
+                    </td>
+                  </tr>
+                <% end %>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="col-md-6">
+            <h3 class="selected-beans ">Tu selección <small class="brown"></small></h3>
+            <div class="row">
+              <div class="col-md-8">
+                <table id="selected-beans" class="table">
+                  <tbody>
+                    
+                  </tbody>
+                </table>
+               </div>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="row">
+          <div class="col-md-12">
+          <hr>
+            <%= submit_tag 'Elegir café', class: 'btn btn-primary', data: { disable_with: 'Elegir café' } %>
+          </div>
+        </div>
+      <% end %>
+    <% end %>
+
+
+  </div>
+</div>
+
+ 
+ 

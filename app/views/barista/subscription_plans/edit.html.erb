@@ -1,0 +1,38 @@
+<div class="page-header">
+  <h1>Editar plan</h1>
+</div>
+
+<div class="row">
+  <div class="col-md-4">
+    <%= render 'form' %>
+  </div>
+  <div class="col-md-8">
+    <legend>Precios</legend>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Periodo</th>
+          <th>Precio</th>
+        </tr>
+        <tbody>
+          <% @plan.entries.each do |entry| %>
+            <tr>
+              <%= bootstrap_form_for [:barista, @plan, entry] do |f| %>
+                <td><%= f.text_field :period_quantity, hide_label: true, class: 'input-sm' %></td>
+                <td><%= f.text_field :price, hide_label: true, class: 'input-sm' %></td>
+                <td><%= f.submit 'Actualizar', class: 'btn btn-primary btn-sm' %></td>
+              <% end %>
+            </tr>
+          <% end %>
+            <tr>
+              <%= bootstrap_form_for [:barista, @plan, @plan.entries.new] do |f| %>
+                <td><%= f.text_field :period_quantity, hide_label: true, class: 'input-sm'  %></td>
+                <td><%= f.text_field :price, hide_label: true, class: 'input-sm'  %></td>
+                <td><%= f.submit 'Crear', class: 'btn btn-primary btn-sm' %></td>
+              <% end %>
+            </tr>
+        </tbody>
+      </thead>
+    </table>
+  </div>
+</div>

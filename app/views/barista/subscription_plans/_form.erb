@@ -1,0 +1,7 @@
+<%= bootstrap_form_for [:barista, @plan] do |f| %>
+  <%= f.text_field :sku, label: 'SKU' %>
+  <%= f.text_field :name, label: 'Nombre' %>
+  <%= f.text_field :coffee_grams, label: 'Gramos' %>
+  <%= f.check_box :is_active, label: 'Disponible' %>
+  <%= f.submit 'Guardar', class: 'btn btn-primary', data: { disable_with: 'Guardando' } %>
+<% end %>

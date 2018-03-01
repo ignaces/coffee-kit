@@ -1,0 +1,33 @@
+<p>Estimad@ <%= @order.user.first_name.titleize %>,</p>
+
+<p>Tu compra en <a href="www.thecoffeekit.com/?utm_source=mailer&utm_medium=mail&utm_term=welcome&utm_campaign=hola">thecoffeekit.com</a> ha sido confirmada.</p>
+
+<p>El código de tu compra es <strong><%= @order.uuid %></strong> </p>
+
+<ul>
+  <% if @order.subscription %>
+    <li>Suscripción de <%= @order.subscription.subscription_plan.coffee_grams %> G por <%= pluralize @order.subscription.months, 'mes', 'meses' %></li>
+  <% end %>
+
+  <% @order.items.each do |item| %>
+    <li><%= item.quantity %> <%= item.product.name %></li>
+  <% end %>
+  
+</ul>
+<br>
+<strong>Dirección de envío:</strong> <%= @order.shipping_address.full_address %> <br>
+<strong>Comentarios de envío:</strong> <%= @order.shipping_address.comments %> <br>
+<strong>Fecha estimada de despacho primera entrega:</strong> dentro de 5 días hábiles a partir de mañana.<br>
+
+<% if @order.subscription %>
+<p>Tu primer despacho de café llegará a la dirección de arriba en los próximos cinco días hábiles.</p>
+
+<p>Si tu suscripción es por dos o más meses, los próximos despachos llegarán cada mes a tu dirección dentro de cinco días hábiles a partir de la fecha de generación de pedidos (te avisaremos antes para que vuelvas a elegir tus granos).</p>
+
+<% end %>
+
+<p>Cualquier duda que tengas, puedes reponder este correo y te contestaremos lo antes posible.</p>
+
+<hr>
+
+<strong>El Equipo The Coffee Kit</strong>
